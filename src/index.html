@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!-- 
+   Copyright 2016 Justin Overton
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html>
+<head>
+	<title>Avatar Generator</title>
+    <script src="avatar-generator.js"></script>
+</head>
+<body>
+    <form onsubmit="return generate();">
+        <input id="value" type="text" value="Justin" />
+        <button>Generate!</button>
+    </form>
+    <canvas id="avatar" width="120px" height="120px" style="border-radius: 100%;"></canvas>
+	<script type="text/javascript">
+		
+		var base = '';
+		var g = new polymath.avatar.generator({
+		    eyes: [base + 'img/avatar/Eye/1.png', base + 'img/avatar/Eye/2.png', base + 'img/avatar/Eye/3.png', base + 'img/avatar/Eye/4.png'],
+		    mouths: [base + 'img/avatar/Mouth/1.png', base + 'img/avatar/Mouth/2.png', base + 'img/avatar/Mouth/3.png', base + 'img/avatar/Mouth/4.png'],
+		    noses: [base + 'img/avatar/Nose/1.png', base + 'img/avatar/Nose/2.png', base + 'img/avatar/Nose/3.png', base + 'img/avatar/Nose/4.png']
+		});
+		
+		function generate() {
+		    var v = document.getElementById('value').value;
+		    g.generate(v, 120, document.getElementById('avatar'));
+		    return false;
+		}
+		
+		generate();
+	</script>
+</body>
+</html>
