@@ -27,12 +27,20 @@
     <canvas id="avatar" width="120px" height="120px" style="border-radius: 100%;"></canvas>
 	<script type="text/javascript">
 		
-		var base = '';
-		var g = new polymath.avatar.generator({
-		    eyes: [base + 'img/avatar/Eye/1.png', base + 'img/avatar/Eye/2.png', base + 'img/avatar/Eye/3.png', base + 'img/avatar/Eye/4.png'],
-		    mouths: [base + 'img/avatar/Mouth/1.png', base + 'img/avatar/Mouth/2.png', base + 'img/avatar/Mouth/3.png', base + 'img/avatar/Mouth/4.png'],
-		    noses: [base + 'img/avatar/Nose/1.png', base + 'img/avatar/Nose/2.png', base + 'img/avatar/Nose/3.png', base + 'img/avatar/Nose/4.png']
-		});
+		var settings = {
+		    heads: ['img/avatar/head.png'],
+		    eyes: [],
+		    mouths: [],
+		    noses: []
+		};
+		
+		for(var i=1; i<=6; i++) {
+		    settings.eyes.push('img/avatar/eye' + i + '.png');
+		    settings.mouths.push('img/avatar/mouth' + i + '.png');
+		    settings.noses.push('img/avatar/nose' + i + '.png');
+		}
+		
+		var g = new polymath.avatar.generator(settings);
 		
 		function generate() {
 		    var v = document.getElementById('value').value;

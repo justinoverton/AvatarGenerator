@@ -38,12 +38,18 @@ polymath.avatar.generator.prototype.generate = function(key, size, canvas){
     var eyeBits = this.settings.eyes.length.toString(2).length;
     var mouthBits = this.settings.mouths.length.toString(2).length;
     var noseBits = this.settings.noses.length.toString(2).length;
-     
+    var headBits = this.settings.heads.length.toString(2).length;
+    
     var eye = parseInt(hash.substring(i, eyeBits)) % this.settings.eyes.length;
     i+= eyeBits;
     var mouth = parseInt(hash.substring(i, mouthBits + i)) % this.settings.mouths.length;
     i+= mouthBits;
     var nose = parseInt(hash.substring(i, noseBits + i)) % this.settings.noses.length;
+    i+= noseBits;
+    var head = parseInt(hash.substring(i, headBits + i)) % this.settings.heads.length;
+    
+    var headImg = new Image();
+    headImg.src = this.settings.heads[head];
     
     var eyeImg = new Image();
     eyeImg.src = this.settings.eyes[eye];
@@ -57,11 +63,23 @@ polymath.avatar.generator.prototype.generate = function(key, size, canvas){
     canvas = canvas || document.createElement('canvas');
     var ctx = canvas.getContext('2d');
     
-    ctx.fillStyle = this.settings.background || "#FFFF00";
-    ctx.fillRect(0,0,size,size);
-    eyeImg.onload = function(){ ctx.drawImage(eyeImg,0,0,size,size); };
-    mouthImg.onload = function(){ ctx.drawImage(mouthImg,0,0,size,size); };
-    noseImg.onload = function(){ ctx.drawImage(noseImg,0,0,size,size); };
+    var doneImages = [];
+    var headDrawn = false;
+    headImg.onload = function(){ 
+    	
+    	ctx.drawImage(headImg,0,0,size,size);
+    	headDrawn = true;
+    	for(var i=0; i<doneImages.length; i++) {
+    		ctx.drawImage(doneImages[i],0,0,size,size);
+    	}
+    };
+    eyeImg.onload = function(){ 
+    	
+    	if(!headDrawn){ doneImages.push(eyeImg); return; }
+    	ctx.drawImage(eyeImg,0,0,size,size); 
+    };
+    mouthImg.onload = function(){ if(!headDrawn){ doneImages.push(mouthImg); return; } ctx.drawImage(mouthImg,0,0,size,size); };
+    noseImg.onload = function(){ if(!headDrawn){ doneImages.push(noseImg); return; } ctx.drawImage(noseImg,0,0,size,size); };
     
     return canvas;
 };
